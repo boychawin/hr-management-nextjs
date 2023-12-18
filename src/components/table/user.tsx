@@ -2,6 +2,8 @@
 import React from 'react'
 import RegisterUserModal from './register-user-modal'
 import { PaginationButton } from '../pogination';
+import DeleteUserModal from './user-delete';
+import EditUserModal from './user-edit';
 
 type Props = {
     data: any | [],
@@ -11,7 +13,7 @@ type Props = {
 export default function TableUserPagination({ data, currentPage }: Props) {
     return (
         <>
-            <div className="container mx-auto px-4 sm:px-8">
+            <div className="container mx-auto px-4 sm:px-8 ">
                 <div className="py-8">
                     <div>
                         <h2 className="text-2xl font-semibold leading-tight">Users
@@ -24,7 +26,7 @@ export default function TableUserPagination({ data, currentPage }: Props) {
                     <div className="my-2 flex sm:flex-row flex-col">
                         <div className="flex flex-row mb-1 sm:mb-0">
                             <div className="relative">
-                                <select className="appearance-none h-full rounded-l border block appearance-none w-full bg-white border-gray-400 text-gray-700 py-2 px-4 pr-8 leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
+                                <select className=" h-full rounded-l border block appearance-none w-full  border-gray-400 text-gray-700 py-2 px-4 pr-8 leading-tight focus:outline-none focus: focus:border-gray-500">
                                     <option>5</option>
                                     <option>10</option>
                                     <option>20</option>
@@ -36,7 +38,7 @@ export default function TableUserPagination({ data, currentPage }: Props) {
                                 </div>
                             </div>
                             <div className="relative">
-                                <select className="appearance-none h-full rounded-r border-t sm:rounded-r-none sm:border-r-0 border-r border-b block appearance-none w-full bg-white border-gray-400 text-gray-700 py-2 px-4 pr-8 leading-tight focus:outline-none focus:border-l focus:border-r focus:bg-white focus:border-gray-500">
+                                <select className=" h-full rounded-r border-t sm:rounded-r-none sm:border-r-0 border-r border-b block appearance-none w-full  border-gray-400 text-gray-700 py-2 px-4 pr-8 leading-tight focus:outline-none focus:border-l focus:border-r focus: focus:border-gray-500">
                                     <option>All</option>
                                     <option>Active</option>
                                     <option>Inactive</option>
@@ -55,8 +57,7 @@ export default function TableUserPagination({ data, currentPage }: Props) {
                                     </path>
                                 </svg>
                             </span>
-
-                            <input placeholder="Search" className="appearance-none rounded-r rounded-l sm:rounded-l-none border border-gray-400 border-b block pl-8 pr-6 py-2 w-full bg-white text-sm placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none" />
+                            <input placeholder="Search" className="appearance-none rounded-r rounded-l sm:rounded-l-none border border-gray-400 border-b block pl-8 pr-6 py-2 w-full  text-sm placeholder-gray-400 text-gray-700 focus: focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none" />
                         </div>
 
                     </div>
@@ -76,31 +77,45 @@ export default function TableUserPagination({ data, currentPage }: Props) {
                                         <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                                             Role
                                         </th>
+                                        <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                            Edit
+                                        </th>
+                                        <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                            Delete
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody>
 
                                     {data.slice(0).map(({ id, email, name, role }: any, index: number) => (
                                         <tr key={index}>
-                                            <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                            <td className="px-5 py-5 border-b border-gray-200  text-sm">
                                                 {id}
                                             </td>
-                                            <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                            <td className="px-5 py-5 border-b border-gray-200  text-sm">
                                                 {email}
                                             </td>
-                                            <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                            <td className="px-5 py-5 border-b border-gray-200  text-sm">
                                                 {name}
                                             </td>
-                                            <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                            <td className="px-5 py-5 border-b border-gray-200  text-sm">
                                                 {role}
                                             </td>
-
+                                            <td className="px-5 py-5 border-b border-gray-200  text-sm">
+                                                <EditUserModal id={id} email={email} name={name} role={role} />
+                                            </td>
+                                            <td className="px-5 py-5 border-b border-gray-200  text-sm">
+                                                <DeleteUserModal id={id} email={email} / >
+                                            </td>
                                         </tr>
                                     ))}
-
-
                                 </tbody>
                             </table>
+                            {data?.length === 0 && (
+                                <div className='text-center'>
+                                    <span>No data</span>
+                                </div>
+                            )}
 
                             <PaginationButton
                                 pathName="/"
